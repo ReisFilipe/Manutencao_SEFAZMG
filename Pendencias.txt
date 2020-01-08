@@ -1,3 +1,4 @@
+1 Criar diagrama do banco de dados
 1 Salvar registros no banco 
 2 fazer função de verificação se ouve alteração e atualizar no banco.
 3 Enviar alerta pelo telegram sobre alteração 
