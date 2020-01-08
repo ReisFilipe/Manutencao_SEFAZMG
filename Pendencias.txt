@@ -1,0 +1,5 @@
+1 Salvar registros no banco 
+2 fazer função de verificação se ouve alteração e atualizar no banco.
+3 Enviar alerta pelo telegram sobre alteração 
+4 Alerta 2 dias antes da paralização 
+5 Modularizar 
