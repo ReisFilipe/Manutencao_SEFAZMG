@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+from conexaoDB import ConexaoDB
 
 class ConsultaSefazMG:
 
@@ -25,17 +26,16 @@ class ConsultaSefazMG:
             cHoras = df[1][x]
             cSituacao = df[2][x]
             
-            #print('---------------------------      ------------------------')
-            #print(cMensagem)
-            #print(cHoras)
             print(cSituacao)
             cInicio = cMensagem.find("dia")
             cData = cMensagem[cInicio+4:cInicio+10]
-            #print(cData)
+
+            print(conn)
+
 
             if cData[3:5] == dDataAtual[3:5]: # and cSituacao == 'Agendada':
                 cAlerta = 'Paralização programada '+cMensagem +' com duração de '+ cHoras
-                #print(cAlerta)
+
 
         return cAlerta
 
