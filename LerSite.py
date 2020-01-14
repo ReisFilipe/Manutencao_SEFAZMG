@@ -2,7 +2,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-from conexaoDB import ConexaoDB
+from ConexaoDB import *
 
 class ConsultaSefazMG:
 
@@ -12,34 +12,53 @@ class ConsultaSefazMG:
             print('Requisição bem sucedida!')
             content = req.content
 
-        soup = BeautifulSoup(content, 'html.parser')
-        table = soup.find(name='table')
 
-        data_e_hora_atuais = datetime.now()
-        dDataAtual = data_e_hora_atuais.strftime('%d/%m')
+            conn = ConexaoDB()
 
-        table_str = str(table)
-        df = (pd.read_html(table_str))[0]
+            soup = BeautifulSoup(content, 'html.parser')
+            table = soup.find(name='table')
 
-        for x in range(1,len(df)):
-            cMensagem = df[0][x]
-            cHoras = df[1][x]
-            cSituacao = df[2][x]
-            
-            print(cSituacao)
-            cInicio = cMensagem.find("dia")
-            cData = cMensagem[cInicio+4:cInicio+10]
+            date = datetime.now()
+            dDataAtual = date.strftime('%d/%m')
 
-            print(conn)
+            table_str = str(table)
+            df = (pd.read_html(table_str))[0]
 
+            for x in range(1,len(df)):
+                #print(df)
+                cMes = df[0][x]
+                cMensagem = df[1][x]
+                cHoras = df[2][x]
+                cSituacao = df[3][x]
+  
+                cInicio = cMensagem.find("dia")
+                cData = cMensagem[cInicio+4:cInicio+10]
 
-            if cData[3:5] == dDataAtual[3:5]: # and cSituacao == 'Agendada':
-                cAlerta = 'Paralização programada '+cMensagem +' com duração de '+ cHoras
+                sql = ("select * from paralizacao where par_informacao = '{0}' ").format(cMensagem)
+                conn.execute(sql)
 
+                result = conn.fetchone(sql)
 
-        return cAlerta
+                if result != None:
+                    sql = ('''update paralizacao set par_situacao = '{0}', par_qtde_horas = '{1}', par_atualizacao = '{4}'  
+                            where par_mes = '{2}' and par_informacao = '{3}' 
+                            ''').format(cSituacao, cHoras, cMes, cMensagem, datetime.now())
+                    conn.execute(sql)
+                else:
+                    sql = ('''INSERT INTO manutencao_sefaz.paralizacao
+                            (par_informacao, par_qtde_horas, par_situacao, par_atualizacao, par_mes)
+                            VALUES('{0}', '{1}', '{2}', '{3}', '{4}'); 
+                            ''').format(cMensagem, cHoras, cSituacao, datetime.now(), cMes )
+                    conn.execute(sql)
+
+                if ((cSituacao != 'Cancelada') and (cSituacao != 'Agendada')):
+                    sql = ('''update paralizacao set par_alerta = 'S'  
+                            where par_mes = '{0}' and par_informacao = '{1}' 
+                            ''').format( cMes, cMensagem)
+                    conn.execute(sql)
+        return 'Fim'
 
 if __name__ == '__main__':
     mClass = ConsultaSefazMG()
-    cResult = mClass.Consulta()
-    print(cResult)
+    result = mClass.Consulta()
+    print(result)
