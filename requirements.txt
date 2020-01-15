@@ -1,0 +1,7 @@
+pip install configparser
+pip install smtplib
+pip install BeautifulSoup4
+pip isntall requests
+pip isntall pandas
+pip install pymysql
+pip install flask
