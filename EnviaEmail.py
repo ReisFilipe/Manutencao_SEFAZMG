@@ -2,6 +2,8 @@ import smtplib
 from email.mime.text import MIMEText
 import configparser
 from ConexaoDB import *
+import json
+
 
 class EnviaEmail:
 
@@ -14,6 +16,15 @@ class EnviaEmail:
         self.password = config.get("E-mail", "passwd") 
 
     def EnvioEmail(self):
+
+        cDados = self.BuscaDados()
+
+        for row in cDados:
+            par_informacao = row['par_informacao']
+            par_qtde_horas = row['par_qtde_horas']
+            par_situacao = row['par_situacao']
+            par_mes = row['par_mes']
+            
 
         from_addr = self.username
         to_addrs = ['destiny@gmail.com']
@@ -38,11 +49,12 @@ class EnviaEmail:
     def BuscaDados(self):
         conn = ConexaoDB()
 
-        sql = '''select * from paralizacao '''
+        sql = '''select * from paralizacao limit 1 '''
         conn.execute(sql)
 
         result = conn.fetch(sql)
-        #print(result)
+    
+        
         return result
 # Retirar depois de finalizar 
 if __name__ == '__main__':
