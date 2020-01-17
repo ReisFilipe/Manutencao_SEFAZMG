@@ -5,3 +5,4 @@ pip isntall requests
 pip isntall pandas
 pip install pymysql
 pip install flask
+pip install flask-bootstrap
