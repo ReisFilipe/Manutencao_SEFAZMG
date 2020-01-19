@@ -32,7 +32,7 @@ CREATE TABLE `paralizacao` (
   `par_mes` varchar(100) DEFAULT NULL,
   `rowid` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`rowid`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 

@@ -136,7 +136,7 @@ iframe {
 
 .row.header {
   color: #ffffff;
-  background: #6c7ae0;
+  background: #101011;
 }
 
 @media screen and (max-width: 768px) {
@@ -211,7 +211,7 @@ iframe {
 }
 
 .row .cell:nth-child(3) {
-  width: 250px;
+  width: 130px;
 }
 
 .row .cell:nth-child(4) {

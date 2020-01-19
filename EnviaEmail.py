@@ -51,10 +51,8 @@ class EnviaEmail:
 
         sql = '''select * from paralizacao limit 1 '''
         conn.execute(sql)
-
         result = conn.fetch(sql)
-    
-        
+
         return result
 # Retirar depois de finalizar 
 if __name__ == '__main__':
