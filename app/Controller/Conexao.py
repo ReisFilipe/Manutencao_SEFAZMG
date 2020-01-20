@@ -45,3 +45,4 @@ class Conexao:
         self.__connect__()
         self.cur.execute(sql)
         self.__disconnect__()
+

@@ -1,15 +1,19 @@
 import smtplib
 from email.mime.text import MIMEText
 import configparser
-from ConexaoDB import *
+from Conexao import *
 import json
+import os
 
 
 class EnviaEmail:
 
     def __init__(self):
         config =  configparser.ConfigParser()
-        config.read("C:/Users/Filipe/Documents/Projetos/Manutencao_sefaz/config/db.conf")
+        curdir = os.path.dirname(os.path.realpath(__file__))+'\config'
+        conf = "\db.conf"
+
+        config.read(curdir+conf)
         self.smtp_ssl_host = config.get("E-mail", "smtp")
         self.smtp_ssl_port = config.get("E-mail", "port") 
         self.username = config.get("E-mail", "username") 
@@ -47,7 +51,7 @@ class EnviaEmail:
         server.quit()
 
     def BuscaDados(self):
-        conn = ConexaoDB()
+        conn = Conexao()
 
         sql = '''select * from paralizacao limit 1 '''
         conn.execute(sql)
@@ -61,4 +65,6 @@ if __name__ == '__main__':
     result = mClass.BuscaDados()
     print(result)
     '''
-
+config =  configparser.ConfigParser()
+curdir = os.path.dirname(os.path.realpath(__file__))+'\config'
+conf = "\db.conf"
