@@ -1,11 +1,16 @@
 import configparser
 import pymysql
+import os
 
 class Conexao:
 
     def __init__(self):
         config =  configparser.ConfigParser()
-        config.read("C:/Users/filip/Documents/Projetos/Manutencao_SEFAZMG/app/Controller/config/db.conf")
+        
+        curdir = os.path.dirname(os.path.realpath(__file__))+'\config'
+        conf = "\db.conf"
+
+        config.read(curdir+conf)
         self.host = config.get("MariaDB", "host")
         self.user = config.get("MariaDB", "user")
         self.password = config.get("MariaDB", "passwd")

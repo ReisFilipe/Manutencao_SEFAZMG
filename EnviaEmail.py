@@ -56,6 +56,9 @@ class EnviaEmail:
         return result
 # Retirar depois de finalizar 
 if __name__ == '__main__':
+    '''
     mClass = EnviaEmail()
     result = mClass.BuscaDados()
     print(result)
+    '''
+
